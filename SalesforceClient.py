@@ -11,7 +11,7 @@ class SalesforceClient:
 
     def oauth_url(self, redirect_uri):
         return "https://login.salesforce.com/services/oauth2/authorize?response_type=code&client_id="+self.CONSUMER_KEY+"&redirect_uri="+redirect_uri
-    
+
     def init(self, callback_code = None, redirect_uri = None):
         if callback_code == None:
             data = {
@@ -114,7 +114,7 @@ class SalesforceClient:
                 query += '+AND+LastModifiedDate<=' + date2 + 'T00:00:00.000%2B0000'
 
         return self.api_query(query)
-    
+
 
     def load_extra(self, nextRecordsUrl):
         headers = {
@@ -124,9 +124,10 @@ class SalesforceClient:
 
         response = requests.get(self.domain_name + nextRecordsUrl, headers=headers)
         return response.json()
-    
+
 # Self test
 if __name__ == '__main__':
     salesforceClient = SalesforceClient()
     salesforceClient.init()
     print(salesforceClient.get_data('Order'))
+
