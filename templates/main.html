@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Salesforce Integration</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="{{ url_for('static', filename='app.css') }}">
+  <link rel="stylesheet" href="../static/app.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="{{ url_for('static', filename='main.js') }}"></script>
+  <script src="../static/main.js"></script>
+</head>
+<body>
+  <div class="container-fluid">
+    <h3 class="text-center mt-3 mb-5">Salesforce Integration</h3>
+    <div class="center">
+      <div class="row my-3">
+        <div class="dropdown col-md-1 mx-3">
+          <button type="button" class="btn btn-outline-secondary btn-block rounded-pill dropdown-toggle" data-toggle="dropdown" id="sel_upload_data_type_btn">Account</button>
+          <div class="dropdown-menu">
+            <a class='dropdown-item' href='#' onclick='sel_upload_data_type("Account")'>Account</a>
+            <a class='dropdown-item' href='#' onclick='sel_upload_data_type("Contact")'>Contact</a>
+            <a class='dropdown-item' href='#' onclick='sel_upload_data_type("Lead")'>Lead</a>
+            <a class='dropdown-item' href='#' onclick='sel_upload_data_type("Opportunity")'>Opportunity</a>
+            <a class='dropdown-item' href='#' onclick='sel_upload_data_type("Order")'>Order</a>
+            <a class='dropdown-item' href='#' onclick='sel_upload_data_type("Quote")'>Quote</a>
+          </div>
+        </div>
+        <input type="date" class="form-control form-control col-md-1 mx-3" id="date1">
+        <input type="date" class="form-control form-control col-md-1 mx-3" id="date2">
+        <button type="button" class="btn btn-outline-secondary col-md-1 mx-3 rounded-pill hide" onclick="upload()" id="upload_btn"><span class="spinner-border spinner-border-sm hide"></span> Upload</button>
+        <button type="button" class="btn btn-outline-secondary col-md-1 mx-3 rounded-pill" onclick="view()" id="view_button"><span class="spinner-border spinner-border-sm hide"></span> View</button>
+        <button type="button" class="btn btn-outline-secondary col-md-1 mx-3 rounded-pill hide" onclick="back()" id="view_dlg_button">View...</button>
+        <button type="button" class="btn btn-outline-secondary col-md-1 mx-3 rounded-pill" onclick="uploadDlg()" id="upload_dlg_button">Upload...</button>
+      </div>
+      <div class="row" id="query-div">
+        <div class="col-sm-12 center">
+          <table class="table table-striped table-bordered table-hover hide">
+            <thead class="thead-dark">
+              <tr>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td colspan=5 style='height: 20vh;'></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="row hide" id="result-div">
+        <div class="col-sm-12 center">
+          <textarea class="" id="result" rows="29" style="width: 100%;" placeholder="&#10;&#10;&#10;&#10;&#10;&#10;&#10;&#10;&#10;Input CSV Data to upload here."></textarea>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

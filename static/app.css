@@ -1,0 +1,39 @@
+::-webkit-input-placeholder {
+  font-style: italic;
+}
+
+:-moz-placeholder {
+  font-style: italic;  
+}
+
+::-moz-placeholder {
+  font-style: italic;  
+}
+
+:-ms-input-placeholder {  
+  font-style: italic; 
+}
+
+
+.hide {
+  display: none;
+}
+
+/* .mx-auto */
+.center {
+  margin: 0 auto;
+  text-align: center;
+}
+
+td {
+  white-space: nowrap;
+}
+
+textarea::placeholder {
+  text-align: center;
+}
+
+body {
+  padding-top: 50px;
+  color: rgb(64, 64, 64);
+}
