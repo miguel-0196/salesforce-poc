@@ -105,5 +105,5 @@ class SalesforceClient:
             'Content-Encoding': 'gzip'
         }
 
-        response = requests.get(self.domain_name + nextRecordsUrl)
+        response = requests.get(self.domain_name + nextRecordsUrl, headers=headers)
         return response.json()

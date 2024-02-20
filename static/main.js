@@ -1,7 +1,7 @@
 function myAlert(msg, tag = 'danger') {
     msglabel = 'Error'
     if (tag == 'success') msglabel = 'Success'
-    html = '<div class="alert alert-' + tag + ' alert-dismissible fade show" style="width: 20%;position: fixed; right: 10px; top: 130px;">'
+    html = '<div class="alert alert-' + tag + ' alert-dismissible fade show" style="width: 20%;position: fixed; right: 10px; top: 110px;">'
     html += '<button type="button" class="close" data-dismiss="alert">&times;</button>'
     html += '<strong>' + msglabel + ': </strong> ' + msg
     html += '</div>'
