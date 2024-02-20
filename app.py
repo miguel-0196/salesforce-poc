@@ -6,20 +6,33 @@ import os
 import time
 
 # External libraries
-from flask import Flask, request, render_template
+from flask import Flask, request, render_template, redirect
 
 # Internal libraries
 from SalesforceClient import SalesforceClient
 
-salesforceClient = SalesforceClient()
-
 # Flask app setup
 app = Flask(__name__)
 app.secret_key = os.environ.get("SECRET_KEY") or os.urandom(24)
+salesforceClient = SalesforceClient()
 
 # App routes
 @app.route("/")
 def index():
+    return redirect(salesforceClient.oauth_url('https://127.0.0.1:4444/login/callback'))
+    
+@app.route("/login/callback")
+def callback():
+    code = request.args.get("code")
+    redirect_uri = request.args.get("redirect_uri")
+    result = salesforceClient.init(code, redirect_uri)
+    if result == 'OK':
+        return redirect("/main")
+    else:
+        return "<b>Login failed: </b>" + result
+
+@app.route("/main")
+def main():
     return render_template("main.html")
 
 @app.post("/view_salesforce_data")

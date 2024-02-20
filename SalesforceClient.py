@@ -3,26 +3,43 @@ import json
 import requests
 
 class SalesforceClient:
-    def __init__(self):
+    def __init__(self) -> None:
         self.USERNAME = os.environ.get('SALES_USERNAME')
         self.PASSWORD = os.environ.get('SALES_PASSWORD')
         self.CONSUMER_KEY = os.environ.get('SALES_CLIENT_KEY')
         self.CONSUMER_SECRET = os.environ.get('SALES_CLIENT_SECRET')
 
-        json_data = {
-            'grant_type': 'password',
-            'username': self.USERNAME,
-            'password': self.PASSWORD,
-            'client_id': self.CONSUMER_KEY,
-            'client_secret': self.CONSUMER_SECRET,
-            'content-type': 'application/json'
-        }
+    def oauth_url(self, redirect_uri):
+        return "https://login.salesforce.com/services/oauth2/authorize?response_type=code&client_id="+self.CONSUMER_KEY+"&redirect_uri="+redirect_uri
+    
+    def init(self, callback_code = None, redirect_uri = None):
+        if callback_code == None:
+            data = {
+                'grant_type': 'password',
+                'username': self.USERNAME,
+                'password': self.PASSWORD,
+                'client_id': self.CONSUMER_KEY,
+                'client_secret': self.CONSUMER_SECRET,
+                'content-type': 'application/json'
+            }
+        else:
+            data = {
+                'grant_type': 'authorization_code',
+                'redirect_uri': redirect_uri,
+                'code': callback_code,
+                'client_id' : self.CONSUMER_KEY,
+                'client_secret' : self.CONSUMER_SECRET
+            }
 
         uri_token_request = 'https://login.salesforce.com/services/oauth2/token'
-        response = requests.post(uri_token_request, data=json_data).json()
+        response = requests.post(uri_token_request, data=data).json()
+        if 'error' in response:
+            print("Oauth error:", response)
+            return response['error_description']
 
         self.access_token = response['token_type'] + ' ' + response['access_token']
         self.domain_name = response['instance_url']
+        return 'OK'
 
     def post_job(self, job_data):
         job_url = self.domain_name + '/services/data/v59.0/jobs/ingest/'
