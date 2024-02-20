@@ -8,7 +8,6 @@ class SalesforceClient:
         self.PASSWORD = os.environ.get('SALES_PASSWORD')
         self.CONSUMER_KEY = os.environ.get('SALES_CLIENT_KEY')
         self.CONSUMER_SECRET = os.environ.get('SALES_CLIENT_SECRET')
-        self.DOMAIN_NAME = os.environ.get('SALES_DOMAIN_NAME')
 
         json_data = {
             'grant_type': 'password',
@@ -19,15 +18,17 @@ class SalesforceClient:
             'content-type': 'application/json'
         }
 
-        uri_token_request = self.DOMAIN_NAME + '/services/oauth2/token'
-        response = requests.post(uri_token_request, data=json_data)
-        self.access_token = response.json()['access_token']
+        uri_token_request = 'https://login.salesforce.com/services/oauth2/token'
+        response = requests.post(uri_token_request, data=json_data).json()
+
+        self.access_token = response['token_type'] + ' ' + response['access_token']
+        self.domain_name = response['instance_url']
 
     def post_job(self, job_data):
-        job_url = self.DOMAIN_NAME + '/services/data/v59.0/jobs/ingest/'
+        job_url = self.domain_name + '/services/data/v59.0/jobs/ingest/'
 
         headers = {
-            'Authorization': 'Bearer ' + self.access_token,
+            'Authorization': self.access_token,
             'Content-Type': 'application/json',
             'Accept': 'application/json',
             'X-PrettyPrint': '1'
@@ -38,19 +39,19 @@ class SalesforceClient:
 
     def insert_data(self, url, data):
         headers = {
-            'Authorization': 'Bearer ' + self.access_token,
+            'Authorization': self.access_token,
             'Content-Type': 'text/csv',
             'Accept': 'application/json',
             'X-PrettyPrint': '1'
         }
 
-        return requests.put(self.DOMAIN_NAME + '/' + url, headers=headers, data=data)
+        return requests.put(self.domain_name + '/' + url, headers=headers, data=data)
 
     def upload_complete(self, url):
-        job_url = self.DOMAIN_NAME + '/services/data/v59.0/jobs/ingest/'
+        job_url = self.domain_name + '/services/data/v59.0/jobs/ingest/'
 
         headers = {
-            'Authorization': 'Bearer ' + self.access_token,
+            'Authorization': self.access_token,
             'Content-Type': 'application/json; charset=UTF-8',
             'Accept': 'application/json',
             'X-PrettyPrint': '1'
@@ -63,10 +64,10 @@ class SalesforceClient:
         return response.json()
 
     def check_status(self, url):
-        job_url = self.DOMAIN_NAME + '/services/data/v59.0/jobs/ingest/'
+        job_url = self.domain_name + '/services/data/v59.0/jobs/ingest/'
 
         headers = {
-            'Authorization': 'Bearer ' + self.access_token,
+            'Authorization': self.access_token,
             'Accept': 'application/json',
             'X-PrettyPrint': '1'
         }
@@ -76,11 +77,11 @@ class SalesforceClient:
 
     def api_query(self, query):
         headers = {
-            'Authorization': 'Bearer ' + self.access_token,
+            'Authorization': self.access_token,
             'Content-Encoding': 'gzip'
         }
 
-        response = requests.get(self.DOMAIN_NAME + '/services/data/v59.0/query/?q=' + query, headers=headers)
+        response = requests.get(self.domain_name + '/services/data/v59.0/query/?q=' + query, headers=headers)
         return response.json()
 
     def get_data(self, type, date1, date2):
@@ -100,9 +101,9 @@ class SalesforceClient:
 
     def load_extra(self, nextRecordsUrl):
         headers = {
-            'Authorization': 'Bearer ' + self.access_token,
+            'Authorization': self.access_token,
             'Content-Encoding': 'gzip'
         }
 
-        response = requests.get(self.DOMAIN_NAME + nextRecordsUrl)
+        response = requests.get(self.domain_name + nextRecordsUrl)
         return response.json()
