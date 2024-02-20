@@ -19,13 +19,13 @@ salesforceClient = SalesforceClient()
 # App routes
 @app.route("/")
 def index():
-    return redirect(salesforceClient.oauth_url('https://127.0.0.1:4444/login/callback'))
+    oauth_url = salesforceClient.oauth_url('https://127.0.0.1:4444/login/callback')
+    return redirect(oauth_url)
     
 @app.route("/login/callback")
 def callback():
     code = request.args.get("code")
-    redirect_uri = request.args.get("redirect_uri")
-    result = salesforceClient.init(code, redirect_uri)
+    result = salesforceClient.init(code, 'https://127.0.0.1:4444/login/callback')
     if result == 'OK':
         return redirect("/main")
     else:
