@@ -101,7 +101,7 @@ class SalesforceClient:
         response = requests.get(self.domain_name + '/services/data/v59.0/query/?q=' + query, headers=headers)
         return response.json()
 
-    def get_data(self, type, date1, date2):
+    def get_data(self, type, date1 = '', date2 = ''):
         query = 'SELECT+FIELDS(STANDARD)+FROM+'+ type +'+WHERE+IsDeleted=False'
 
         if date1 != '' or date2 != '':
@@ -124,3 +124,9 @@ class SalesforceClient:
 
         response = requests.get(self.domain_name + nextRecordsUrl, headers=headers)
         return response.json()
+    
+# Self test
+if __name__ == '__main__':
+    salesforceClient = SalesforceClient()
+    salesforceClient.init()
+    print(salesforceClient.get_data('Order'))
