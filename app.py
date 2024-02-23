@@ -14,18 +14,21 @@ from SalesforceClient import SalesforceClient
 # Flask app setup
 app = Flask(__name__)
 app.secret_key = os.environ.get("SECRET_KEY") or os.urandom(24)
+service_ip = os.environ.get('SERVICE_IP') or '0.0.0.0'
+service_port = os.environ.get('SERVICE_PORT') or 4444
 salesforceClient = SalesforceClient()
 
 # App routes
 @app.route("/")
 def index():
-    oauth_url = salesforceClient.oauth_url('https://127.0.0.1:4444/login/callback')
+    oauth_url = salesforceClient.oauth_url(request.base_url + 'login/callback')
+    print(oauth_url)
     return redirect(oauth_url)
-    
+
 @app.route("/login/callback")
 def callback():
     code = request.args.get("code")
-    result = salesforceClient.init(code, 'https://127.0.0.1:4444/login/callback')
+    result = salesforceClient.init(code, request.base_url)
     if result == 'OK':
         return redirect("/main")
     else:
@@ -42,7 +45,7 @@ def view_salesforce_data():
 @app.post("/load_extra")
 def load_extra():
     return salesforceClient.load_extra(request.form['nextRecordsUrl'])
-    
+
 @app.post("/upload_salesforce_data")
 def upload_salesforce_data():
     # type: Account
@@ -77,4 +80,4 @@ def upload_salesforce_data():
 
 
 if __name__ == '__main__':
-    app.run(threaded=True, host='0.0.0.0', port=4444, ssl_context="adhoc")
+    app.run(threaded=True, host=service_ip, port=service_port, ssl_context="adhoc")
