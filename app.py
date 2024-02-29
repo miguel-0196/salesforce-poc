@@ -46,20 +46,21 @@ def view_salesforce_data():
 def load_extra():
     return salesforceClient.load_extra(request.form['nextRecordsUrl'])
 
-@app.get("/create_custom_obj")
+@app.post("/create_custom_obj")
 def create_custom_obj():
-    fields = [{
-        'fullName': 'Age__c',
-        'label': 'Age',
-        'type': 'Text',
-        'length': 255
-    },
-    {
-        'fullName': 'Description__c',
-        'label': 'Description',
-        'type': 'TextArea'
-    }]
-    return salesforceClient.create_custom_obj('CustomObject15__c', 'CO15', 'Custom Objects', fields)
+    try:
+        fields = []
+        for one in request.form['fields'].split(','):
+            fields.append({
+                'fullName': f"{one}__c",
+                'label': one,
+                'type': 'Text',
+                'length': 255
+            })
+        salesforceClient.create_custom_obj(f"{request.form['name']}__c", request.form['name'], 'Custom Objects', fields)
+        return 'OK'
+    except Exception as err:
+        return str(err), 404
 
 @app.post("/upload_salesforce_data")
 def upload_salesforce_data():

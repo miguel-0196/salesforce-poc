@@ -46,7 +46,7 @@ function upload() {
         if (data.responseText)
             $("#result").val('Failed to upload salesforce data!\n\n' + data.responseText)
         else
-            $("#result").val('Failed to upload salesforce data!')
+        $("#result").val('Failed to upload salesforce data!')
         $("#upload_btn>span").addClass("hide")
     })
 }
@@ -178,4 +178,45 @@ function clean_table() {
 function show_table() {
     $('table').removeClass('hide')
     $('#view_button>span').addClass('hide')
+}
+
+function createDlg() {
+    $("#name").val('')
+    $("#fields").val('')
+    $("#createModal").modal('show')
+}
+
+
+function createObj() {
+    // Check input
+    if ($("#name").val() == '') {
+        alert("Input name.")
+        $("#name").focus()
+        return false
+    }
+
+    if ($("#fields").val() == '') {
+        alert("Input fields.")
+        $("#fields").focus()
+        return false
+    }
+
+    $.post("/create_custom_obj", {
+        "name": $("#name").val(),
+        "fields": $("#fields").val(),
+    },
+    function(data, status) {
+        console.log(status, data)
+        if (data != 'OK') {
+            myAlert('Failed to create a custom object.\n\n' + data)
+        } else {
+            $("#createModal").modal('hide')
+            myAlert('Created successfully!', 'success')
+        }
+    }).fail(function(data) {
+        if (data.responseText)
+            $("#result").val('Failed to create a custom object!\n\n' + data.responseText)
+        else
+            $("#result").val('Failed to create a custom object!')
+    })
 }
