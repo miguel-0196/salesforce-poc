@@ -1,6 +1,7 @@
 import os
 import json
 import requests
+from simple_salesforce import Salesforce
 
 class SalesforceClient:
     def __init__(self) -> None:
@@ -39,6 +40,7 @@ class SalesforceClient:
 
         self.access_token = response['token_type'] + ' ' + response['access_token']
         self.domain_name = response['instance_url']
+        self.sf = Salesforce(instance_url=response['instance_url'], session_id=response['access_token'])
         return 'OK'
 
     def post_job(self, job_data):
@@ -124,6 +126,24 @@ class SalesforceClient:
 
         response = requests.get(self.domain_name + nextRecordsUrl, headers=headers)
         return response.json()
+
+
+    def create_custom_obj(self, fullName, label, pluralLabel, fields):
+        md_api = self.sf.mdapi
+        custom_object = md_api.CustomObject(
+            fullName = fullName,
+            label = label,
+            pluralLabel = pluralLabel,
+            nameField = md_api.CustomField(
+                label = "Name",
+                type = md_api.FieldType("Text")
+            ),
+            fields = fields,
+            deploymentStatus = md_api.DeploymentStatus("Deployed"),
+            sharingModel = md_api.SharingModel("Read")
+        )
+        return md_api.CustomObject.create(custom_object)
+
 
 # Self test
 if __name__ == '__main__':

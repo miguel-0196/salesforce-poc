@@ -46,6 +46,21 @@ def view_salesforce_data():
 def load_extra():
     return salesforceClient.load_extra(request.form['nextRecordsUrl'])
 
+@app.get("/create_custom_obj")
+def create_custom_obj():
+    fields = [{
+        'fullName': 'Age__c',
+        'label': 'Age',
+        'type': 'Text',
+        'length': 255
+    },
+    {
+        'fullName': 'Description__c',
+        'label': 'Description',
+        'type': 'TextArea'
+    }]
+    return salesforceClient.create_custom_obj('CustomObject15__c', 'CO15', 'Custom Objects', fields)
+
 @app.post("/upload_salesforce_data")
 def upload_salesforce_data():
     # type: Account
