@@ -57,7 +57,7 @@ def create_custom_obj():
                 'type': 'Text',
                 'length': 255
             })
-        salesforceClient.create_custom_obj(f"{request.form['name']}__c", request.form['name'], 'Custom Objects', fields)
+        salesforceClient.create_custom_obj(f"{request.form['name']}__c", request.form['name'], request.form['name'], fields)
         return 'OK'
     except Exception as err:
         return str(err), 404
