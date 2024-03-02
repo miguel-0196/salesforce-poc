@@ -183,9 +183,9 @@ function show_table() {
 function createDlg() {
     $("#name").val('')
     $("#fields").val('')
+    $('.field-div:not(.last-field)').remove()
     $("#createModal").modal('show')
 }
-
 
 function createObj() {
     // Check input
@@ -195,15 +195,39 @@ function createObj() {
         return false
     }
 
-    if ($("#fields").val() == '') {
-        alert("Input fields.")
-        $("#fields").focus()
+    if ($(".field-div input:not(:placeholder-shown)").length == 0) {
+        alert("Input field name.")
+        $("input:placeholder-shown").focus()
         return false
+    }
+
+    var fields = []
+    var objs = $('.field-div')
+    for (let i = 0; i < objs.length; i++) {
+        var n = $(objs[i]).find('input:eq(0)').val().trim()
+        if (n.length == 0)
+            continue
+
+        var t = $(objs[i]).find('button:eq(0)').html().trim()
+        if (t == 'Text') {
+            fields.push({
+                'fullName': n + '__c',
+                'label': n,
+                'type': 'Text',
+                'length': 255
+            })
+        } else {
+            fields.push({
+                'fullName': n + '__c',
+                'label': $(objs[i]).find('button:eq(1)').html().trim(),
+                'type': 'TextArea',
+            })
+        }
     }
 
     $.post("/create_custom_obj", {
         "name": $("#name").val(),
-        "fields": $("#fields").val(),
+        "fields": JSON.stringify(fields),
     },
     function(data, status) {
         console.log(status, data)
@@ -220,3 +244,38 @@ function createObj() {
             $("#result").val('Failed to create a custom object!')
     })
 }
+
+function select_pparent_label(el, label) {
+    if (label == 'Text')
+        $(el).parent().parent().next().hide()
+    else if (label == 'Lookup')
+        $(el).parent().parent().next().show()
+    $(el).parent().parent().find('button:first').html(label)
+}
+
+function onchange_field_name(el) {
+
+    if (!$(el).parent().hasClass('last-field'))
+        return
+    
+    var par = $(el).parent().parent()
+    var obj = $(el).parent().clone()
+    obj.find('input').val('')
+    select_pparent_label(obj.find('button:first'), 'Text')
+    obj.find('button:eq(1)').parent().hide()
+    $("*").removeClass('last-field')
+    par.append(obj)
+}
+
+function remove_field_div(el) {
+    var el1 = $(el).parent().parent()
+    if (!el1.hasClass('last-field'))
+        el1.remove()
+    else {
+        el.parent().prev().val('')
+    }
+}
+
+$(document).ready(function(){
+  $('[data-toggle="tooltip"]').tooltip();
+});

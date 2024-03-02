@@ -3,6 +3,7 @@
 
 # Standard libraries
 import os
+import json
 import time
 
 # External libraries
@@ -48,15 +49,7 @@ def load_extra():
 @app.post("/create_custom_obj")
 def create_custom_obj():
     try:
-        fields = []
-        for one in request.form['fields'].split(','):
-            fields.append({
-                'fullName': f"{one}__c",
-                'label': one,
-                'type': 'Text',
-                'length': 255
-            })
-        salesforceClient.create_custom_obj(f"{request.form['name']}__c", request.form['name'], request.form['name'], fields)
+        salesforceClient.create_custom_obj(f"{request.form['name']}__c", request.form['name'], request.form['name'], json.loads(request.form['fields']))
         return 'OK'
     except Exception as err:
         return str(err), 404

@@ -60,8 +60,8 @@
   </div>
 
   <!-- The Modal -->
-  <div class="modal" id="createModal">
-    <div class="modal-dialog">
+  <div class="modal fade" id="createModal">
+    <div class="modal-dialog modal-lg">
       <div class="modal-content">
 
         <!-- Modal Header -->
@@ -77,8 +77,35 @@
             <input type="text" class="form-control" placeholder="Enter object name" id="name">
           </div>
           <div class="form-group">
-            <label for="fields">Fields:</label>
-            <input type="text" class="form-control" placeholder="Enter fields with comma" id="fields">
+            <label>Fields:</label>
+            <div class="input-group mb-3 field-div last-field">
+              <div class="input-group-prepend">
+                <button type="button" class="btn btn-outline-secondary dropdown-toggle" data-toggle="dropdown" title="Field type">
+                  Text
+                </button>
+                <div class="dropdown-menu">
+                  <a class="dropdown-item" href="#" onclick="select_pparent_label(this, 'Text')">Text</a>
+                  <a class="dropdown-item" href="#" onclick="select_pparent_label(this, 'Lookup')">Lookup</a>
+                </div>
+              </div>
+              <div class="input-group-prepend" style="display: none;">
+                <button type="button" class="btn btn-outline-secondary dropdown-toggle" data-toggle="dropdown" title="Field type">
+                  Account
+                </button>
+                <div class="dropdown-menu">
+                  <a class="dropdown-item" href="#" onclick="select_pparent_label(this, 'Account')">Account</a>
+                  <a class="dropdown-item" href="#" onclick="select_pparent_label(this, 'Contact')">Contact</a>
+                  <a class="dropdown-item" href="#" onclick="select_pparent_label(this, 'Lead')">Lead</a>
+                  <a class="dropdown-item" href="#" onclick="select_pparent_label(this, 'Opportunity')">Opportunity</a>
+                  <a class="dropdown-item" href="#" onclick="select_pparent_label(this, 'Order')">Order</a>
+                  <a class="dropdown-item" href="#" onclick="select_pparent_label(this, 'Quote')">Quote</a>
+                </div>
+              </div>
+              <input type="text" class="form-control" placeholder="Enter field name" onfocus="onchange_field_name(this)">
+              <div class="input-group-append">
+                <button type="button" class="btn btn-secondary" onclick="remove_field_div(this)">&times;</button>
+              </div>
+            </div>
           </div>
         </div>
 
