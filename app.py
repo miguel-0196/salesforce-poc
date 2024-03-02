@@ -22,7 +22,6 @@ salesforceClient = SalesforceClient()
 @app.route("/")
 def index():
     oauth_url = salesforceClient.oauth_url(request.base_url + 'login/callback')
-    print(oauth_url)
     return redirect(oauth_url)
 
 @app.route("/login/callback")
@@ -87,7 +86,6 @@ def upload_salesforce_data():
         while (True):
             time.sleep(1)
             status = salesforceClient.check_status(pjr['id'])
-            print(status['state'])
 
             if (status['state'] != 'InProgress'):
                 return status
