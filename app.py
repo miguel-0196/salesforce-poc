@@ -125,6 +125,10 @@ def upload_salesforce_data():
     except Exception as err:
         return str(err), 404
 
+@app.get("/get_obj_list")
+@login_required
+def get_obj_list():
+    return current_user.sf.api_query('/services/data/v59.0/sobjects/')
 
 if __name__ == '__main__':
     app.run(threaded=True, host=service_ip, port=service_port, ssl_context="adhoc")

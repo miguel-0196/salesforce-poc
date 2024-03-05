@@ -20,13 +20,7 @@
       <div class="row my-3">
         <div class="dropdown col-md-1 mx-3">
           <button type="button" class="btn btn-outline-secondary btn-block rounded-pill dropdown-toggle" data-toggle="dropdown" id="sel_upload_data_type_btn">Account</button>
-          <div class="dropdown-menu">
-            <a class='dropdown-item' href='#' onclick='sel_upload_data_type("Account")'>Account</a>
-            <a class='dropdown-item' href='#' onclick='sel_upload_data_type("Contact")'>Contact</a>
-            <a class='dropdown-item' href='#' onclick='sel_upload_data_type("Lead")'>Lead</a>
-            <a class='dropdown-item' href='#' onclick='sel_upload_data_type("Opportunity")'>Opportunity</a>
-            <a class='dropdown-item' href='#' onclick='sel_upload_data_type("Order")'>Order</a>
-            <a class='dropdown-item' href='#' onclick='sel_upload_data_type("Quote")'>Quote</a>
+          <div class="dropdown-menu" id="obj_list">
           </div>
         </div>
         <input type="date" class="form-control form-control col-md-1 mx-3" id="date1">

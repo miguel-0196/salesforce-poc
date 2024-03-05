@@ -101,7 +101,7 @@ class SalesforceClient:
             'Content-Encoding': 'gzip'
         }
 
-        response = requests.get(self.domain_name + '/services/data/v59.0/query/?q=' + query, headers=headers)
+        response = requests.get(self.domain_name + query, headers=headers)
         return response.json()
 
     def get_data(self, type, date1 = '', date2 = ''):
@@ -116,7 +116,7 @@ class SalesforceClient:
             else:
                 query += '+AND+LastModifiedDate<=' + date2 + 'T00:00:00.000%2B0000'
 
-        return self.api_query(query)
+        return self.api_query('/services/data/v59.0/query/?q=' + query)
 
 
     def load_extra(self, nextRecordsUrl):

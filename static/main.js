@@ -280,5 +280,30 @@ function remove_field_div(el) {
 }
 
 $(document).ready(function(){
-  $('[data-toggle="tooltip"]').tooltip();
+    $('[data-toggle="tooltip"]').tooltip();
+
+    $.get("/get_obj_list", {
+    },
+    function(data, status) {
+        console.log(status, data)
+        if (data.errorMessage) {
+            alert('Failed to load salesforce objects list.\n\n' + data.errorMessage)
+        } else {
+            h1 = ""
+            
+            if (data && 'sobjects' in data && data.sobjects.length) {
+                for (i = 0; i < data.sobjects.length; i++) {
+                    nstr = '"' + data.sobjects[i].name + '"'
+                    h1 += "<a class='dropdown-item' href='#' onclick='sel_upload_data_type(" + nstr + ")'>" + data.sobjects[i].name + "</a>"
+                }
+            }
+
+            $("#obj_list").html(h1)
+        }
+    }).fail(function(data) {
+        if (data.responseText)
+            alert('Failed to load salesforce objects list!\n\n' + data.responseText)
+        else
+            alert('Failed to load salesforce objects list!')
+    })
 });
