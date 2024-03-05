@@ -10,8 +10,9 @@ class SalesforceClient:
         self.CONSUMER_KEY = os.environ.get('SALES_CLIENT_KEY')
         self.CONSUMER_SECRET = os.environ.get('SALES_CLIENT_SECRET')
 
-    def oauth_url(self, redirect_uri):
-        return "https://login.salesforce.com/services/oauth2/authorize?response_type=code&client_id="+self.CONSUMER_KEY+"&redirect_uri="+redirect_uri
+    @staticmethod
+    def oauth_url(redirect_uri):
+        return "https://login.salesforce.com/services/oauth2/authorize?response_type=code&client_id="+os.environ.get('SALES_CLIENT_KEY')+"&redirect_uri="+redirect_uri
 
     def init(self, callback_code = None, redirect_uri = None):
         if callback_code == None:
