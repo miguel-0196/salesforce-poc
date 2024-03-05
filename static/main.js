@@ -219,8 +219,11 @@ function createObj() {
         } else {
             fields.push({
                 'fullName': n + '__c',
-                'label': $(objs[i]).find('button:eq(1)').html().trim(),
-                'type': 'TextArea',
+                'label': n,
+                'type': 'Lookup',
+                'relationshipName': n,
+                'relationshipLabel': n,
+                'referenceTo': $(objs[i]).find('button:eq(1)').html().trim(),
             })
         }
     }
