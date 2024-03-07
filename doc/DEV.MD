@@ -14,6 +14,8 @@
 
     ✔️Require Secret for Refresh Token Flow
 
+    + Enable Client Credentials Flow
+
     Callback URL: https://127.0.0.1:4444/login/callback
 
     Selected Oauth Scopes: Full access(full)
