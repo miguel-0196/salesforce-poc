@@ -105,7 +105,7 @@ class SalesforceClient:
         return response.json()
 
     def get_data(self, type, date1 = '', date2 = ''):
-        query = 'SELECT+FIELDS(STANDARD)+FROM+'+ type +'+WHERE+IsDeleted=False'
+        query = 'SELECT+FIELDS(ALL)+FROM+'+ type +'+WHERE+IsDeleted=False'
 
         if date1 != '' or date2 != '':
             if date1 != '':
@@ -115,6 +115,8 @@ class SalesforceClient:
                     query += '+AND+LastModifiedDate<=' + date2 + 'T00:00:00.000%2B0000'
             else:
                 query += '+AND+LastModifiedDate<=' + date2 + 'T00:00:00.000%2B0000'
+
+        query += '+LIMIT+200'    
 
         return self.api_query('/services/data/v59.0/query/?q=' + query)
 
@@ -146,9 +148,23 @@ class SalesforceClient:
         return md_api.CustomObject.create(custom_object)
 
 
+
 # Self test
 if __name__ == '__main__':
     salesforceClient = SalesforceClient()
     salesforceClient.init()
-    print(salesforceClient.get_data('Order'))
+    #print(salesforceClient.get_data('Order'))
 
+    obj_name = f'testobj22'
+    field_name = 'col1'
+    fields = [{
+                'fullName': field_name + '__c',
+                'label': field_name,
+                'type': 'Text',
+                'length': 255,
+                'required': True
+    }]
+    salesforceClient.create_custom_obj(f'{obj_name}__c', obj_name, obj_name, fields)
+
+    from pprint import pprint
+    pprint(salesforceClient.api_query(f'/services/data/v59.0/sobjects/{obj_name}__c/describe'))

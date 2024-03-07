@@ -46,7 +46,7 @@ function upload() {
         if (data.responseText)
             $("#result").val('Failed to upload salesforce data!\n\n' + data.responseText)
         else
-        $("#result").val('Failed to upload salesforce data!')
+            $("#result").val('Failed to upload salesforce data!')
         $("#upload_btn>span").addClass("hide")
     })
 }
@@ -214,15 +214,16 @@ function createObj() {
                 'fullName': n + '__c',
                 'label': n,
                 'type': 'Text',
-                'length': 255
+                'length': 255,
+                'required': true
             })
         } else {
             fields.push({
                 'fullName': n + '__c',
                 'label': n,
                 'type': 'Lookup',
-                'relationshipName': n,
-                'relationshipLabel': n,
+                'relationshipName': $("#name").val() + '_' + n,
+                'relationshipLabel': $("#name").val() + '_' + n,
                 'referenceTo': $(objs[i]).find('button:eq(1)').html().trim(),
             })
         }
@@ -242,9 +243,9 @@ function createObj() {
         }
     }).fail(function(data) {
         if (data.responseText)
-            $("#result").val('Failed to create a custom object!\n\n' + data.responseText)
+            alert('Failed to create a custom object!\n\n' + data.responseText)
         else
-            $("#result").val('Failed to create a custom object!')
+            alert('Failed to create a custom object!')
     })
 }
 
@@ -257,7 +258,6 @@ function select_pparent_label(el, label) {
 }
 
 function onchange_field_name(el) {
-
     if (!$(el).parent().hasClass('last-field'))
         return
     
