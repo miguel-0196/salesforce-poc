@@ -1,3 +1,5 @@
 requests
 Flask
+flask_login
 pyopenssl
+simple_salesforce
