@@ -55,3 +55,5 @@
 - https://developer.salesforce.com/docs/atlas.en-us.api_meta.meta/api_meta/customobject.htm
 
 - https://salesforce.stackexchange.com/questions/178364/create-a-lookup-field-in-salesforce-using-metadata-api-c
+
+- https://www.salesforceben.com/salesforce-fields/
