@@ -130,5 +130,10 @@ def upload_salesforce_data():
 def get_obj_list():
     return current_user.sf.api_query('/services/data/v59.0/sobjects/')
 
+@app.get("/get_obj_desc/<type>")
+@login_required
+def get_obj_desc(type):
+    return current_user.sf.api_query(f'/services/data/v59.0/sobjects/{type}/describe')
+
 if __name__ == '__main__':
     app.run(threaded=True, host=service_ip, port=service_port, ssl_context="adhoc")
