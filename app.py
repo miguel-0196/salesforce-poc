@@ -7,6 +7,7 @@ import json
 import time
 
 # External libraries
+from dotenv import load_dotenv
 from flask import Flask, request, render_template, redirect, url_for
 from flask_login import (
     LoginManager,
@@ -20,11 +21,14 @@ from flask_login import (
 # Internal libraries
 from SalesforceClient import SalesforceClient
 
+# Load environment variables
+load_dotenv()
+service_ip = os.getenv('SERVICE_IP') or '0.0.0.0'
+service_port = os.getenv('SERVICE_PORT') or 4444
+
 # Flask app setup
 app = Flask(__name__)
-app.secret_key = os.environ.get("SECRET_KEY") or os.urandom(24)
-service_ip = os.environ.get('SERVICE_IP') or '0.0.0.0'
-service_port = os.environ.get('SERVICE_PORT') or 4444
+app.secret_key = os.urandom(24)
 
 # User session management setup
 login_manager = LoginManager()
@@ -77,7 +81,7 @@ def main():
 @app.post("/view_salesforce_data")
 @login_required
 def view_salesforce_data():
-    return current_user.sf.get_data(request.form['type'], request.form['date1'], request.form['date2'])
+    return current_user.sf.get_object_data(request.form['type'], request.form['date1'], request.form['date2'])
 
 @app.post("/load_extra")
 @login_required

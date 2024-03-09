@@ -23,13 +23,13 @@
           <div class="dropdown-menu" id="obj_list">
           </div>
         </div>
-        <input type="date" class="form-control form-control col-md-1 mx-3" id="date1">
-        <input type="date" class="form-control form-control col-md-1 mx-3" id="date2">
+        <button type="button" class="btn btn-outline-secondary col-md-1 mx-3 rounded-pill" onclick="createDlg()">Create...</button>
         <button type="button" class="btn btn-outline-secondary col-md-1 mx-3 rounded-pill hide" onclick="upload()" id="upload_btn"><span class="spinner-border spinner-border-sm hide"></span> Upload</button>
+        <button type="button" class="btn btn-outline-secondary col-md-1 mx-3 rounded-pill" onclick="uploadDlg()" id="upload_dlg_button">Upload...</button>
         <button type="button" class="btn btn-outline-secondary col-md-1 mx-3 rounded-pill" onclick="view()" id="view_button"><span class="spinner-border spinner-border-sm hide"></span> View</button>
         <button type="button" class="btn btn-outline-secondary col-md-1 mx-3 rounded-pill hide" onclick="back()" id="view_dlg_button">View...</button>
-        <button type="button" class="btn btn-outline-secondary col-md-1 mx-3 rounded-pill" onclick="createDlg()" id="upload_dlg_button">Create...</button>
-        <button type="button" class="btn btn-outline-secondary col-md-1 mx-3 rounded-pill" onclick="uploadDlg()" id="upload_dlg_button">Upload...</button>
+        <input type="date" class="form-control form-control col-md-1 mx-3" id="date1">
+        <input type="date" class="form-control form-control col-md-1 mx-3" id="date2">
       </div>
       <div class="row" id="query-div">
         <div class="col-sm-12 center">
@@ -47,7 +47,7 @@
       </div>
       <div class="row hide" id="result-div">
         <div class="col-sm-12 center">
-          <textarea class="" id="result" rows="23" style="width: 100%;" placeholder="&#10;&#10;&#10;&#10;&#10;&#10;&#10;&#10;&#10;Input CSV Data to upload here."></textarea>
+          <textarea class="" id="result" rows="30" style="width: 100%;" placeholder="&#10;&#10;&#10;&#10;&#10;&#10;&#10;&#10;&#10;&#10;&#10;&#10;&#10;&#10;Input CSV Data to upload here."></textarea>
         </div>
       </div>
     </div>

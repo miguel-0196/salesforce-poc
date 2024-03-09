@@ -239,7 +239,8 @@ function createObj() {
             myAlert('Failed to create a custom object.\n\n' + data)
         } else {
             $("#createModal").modal('hide')
-            myAlert('Created successfully!', 'success')
+            $("#obj_list").append("<a class='dropdown-item' href='#' onclick='sel_upload_data_type(" + '"' + $("#name").val() + '__c"' + ")'>" + $("#name").val() + "__c</a>")
+            myAlert($("#name").val() + '__c object has been created successfully!', 'success')
         }
     }).fail(function(data) {
         if (data.responseText)

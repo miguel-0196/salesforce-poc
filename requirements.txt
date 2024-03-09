@@ -3,3 +3,4 @@ Flask
 flask_login
 pyopenssl
 simple_salesforce
+python-dotenv

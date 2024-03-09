@@ -1,18 +1,22 @@
 import os
 import json
 import requests
+from dotenv import load_dotenv
 from simple_salesforce import Salesforce
+
+# Load environment variables
+load_dotenv()
 
 class SalesforceClient:
     def __init__(self) -> None:
-        self.USERNAME = os.environ.get('SALES_USERNAME')
-        self.PASSWORD = os.environ.get('SALES_PASSWORD')
-        self.CONSUMER_KEY = os.environ.get('SALES_CLIENT_KEY')
-        self.CONSUMER_SECRET = os.environ.get('SALES_CLIENT_SECRET')
+        self.USERNAME = os.getenv('SALES_USERNAME')
+        self.PASSWORD = os.getenv('SALES_PASSWORD')
+        self.CONSUMER_KEY = os.getenv('SALES_CLIENT_KEY')
+        self.CONSUMER_SECRET = os.getenv('SALES_CLIENT_SECRET')
 
     @staticmethod
     def oauth_url(redirect_uri):
-        return "https://login.salesforce.com/services/oauth2/authorize?response_type=code&client_id="+os.environ.get('SALES_CLIENT_KEY')+"&redirect_uri="+redirect_uri
+        return "https://login.salesforce.com/services/oauth2/authorize?response_type=code&client_id="+os.getenv('SALES_CLIENT_KEY')+"&redirect_uri="+redirect_uri
 
     def init(self, callback_code = None, redirect_uri = None):
         if callback_code == None:
@@ -104,19 +108,24 @@ class SalesforceClient:
         response = requests.get(self.domain_name + query, headers=headers)
         return response.json()
 
-    def get_data(self, type, date1 = '', date2 = ''):
-        query = 'SELECT+FIELDS(ALL)+FROM+'+ type +'+WHERE+IsDeleted=False'
+    def get_object_data(self, object_type, date1 = '', date2 = ''):
+        # Check whether the object you want to see is a custom object or not.
+        if object_type.endswith('__c'):
+            query = 'SELECT+FIELDS(CUSTOM)+FROM+' + object_type + '+WHERE+IsDeleted=False'
+        else:
+            query = 'SELECT+FIELDS(STANDARD)+FROM+' + object_type + '+WHERE+IsDeleted=False'
 
         if date1 != '' or date2 != '':
             if date1 != '':
-                query += '+AND+LastModifiedDate>=' + date1 + 'T00:00:00.000%2B0000'
+                query += '+AND+LastModifiedDate>=' + date1 + 'T00:00:00Z'
 
                 if date2 != '':
-                    query += '+AND+LastModifiedDate<=' + date2 + 'T00:00:00.000%2B0000'
+                    query += '+AND+LastModifiedDate<=' + date2 + 'T23:59:59Z'
             else:
-                query += '+AND+LastModifiedDate<=' + date2 + 'T00:00:00.000%2B0000'
+                query += '+AND+LastModifiedDate<=' + date2 + 'T23:59:59Z'
 
-        query += '+LIMIT+200'    
+        if object_type.endswith('__c'):
+            query += '+LIMIT+200'
 
         return self.api_query('/services/data/v59.0/query/?q=' + query)
 
