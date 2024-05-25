@@ -1,4 +1,4 @@
-This project is a poc project for salesforce integration.
+This project is a POC project for salesforce integration.
 
 # Features
 1. Oauth login
