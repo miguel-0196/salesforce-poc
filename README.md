@@ -1,3 +1,6 @@
+# Salesforce POC
+![Salesforce](img/salesforce.png)
+
 This project is a POC project for salesforce integration.
 
 # Features
