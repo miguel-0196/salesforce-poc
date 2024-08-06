@@ -1,23 +1,16 @@
-# Salesforce POC
+# Salesforce Integration
 ![Salesforce](img/salesforce.png)
 
-This project is a POC project for salesforce integration.
-
-# Features
-1. Oauth login
-2. Getting object data
-3. Uploading object data
-4. Creating new object
-...
+I developed a Salesforce integration(POC) project that showcases key features such as Authorization with OAuth 2.0, the ability to Create New Custom Objects, and functionalities to Find and View Objects Data as well as Upload Objects Data.
 
 
 # How to run
-Flask: https://github.com/Panda0196/salesforce-poc/blob/main/doc/README.MD
+Flask: https://github.com/miguel-0196/salesforce-poc/blob/main/doc/README.MD
 
-Docker: https://github.com/Panda0196/salesforce-poc/blob/main/doc/DOCKER.MD
+Docker: https://github.com/miguel-0196/salesforce-poc/blob/main/doc/DOCKER.MD
 
 
 # Dev doc
-https://github.com/Panda0196/salesforce-poc/blob/main/doc/DEV.MD
+https://github.com/miguel-0196/salesforce-poc/blob/main/doc/DEV.MD
 
-https://github.com/Panda0196/salesforce-poc/blob/main/doc/API.MD
+https://github.com/miguel-0196/salesforce-poc/blob/main/doc/API.MD
