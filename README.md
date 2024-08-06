@@ -1,5 +1,5 @@
 # Salesforce Integration
-![Salesforce](img/salesforce.png)
+![Salesforce](img/readme.jpg)
 
 I developed a Salesforce integration(POC) project that showcases key features such as Authorization with OAuth 2.0, the ability to Create New Custom Objects, and functionalities to Find and View Objects Data as well as Upload Objects Data.
 
